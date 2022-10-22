@@ -15,5 +15,5 @@ COPY --from=build_context /out/ /
 
 WORKDIR /
 
-EXPOSE 9090
+EXPOSE 5000
 CMD ["sh"]

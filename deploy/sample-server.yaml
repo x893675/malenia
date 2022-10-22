@@ -16,13 +16,13 @@ spec:
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "sample-server"
-        dapr.io/app-port: "9090"
+        dapr.io/app-port: "5000"
     spec:
-    containers:
-      - name: server
-        image: hanamichi/sample-server:latest
-        imagePullPolicy: IfNotPresent
-        command: sample-server
-        ports:
-          - containerPort: 80
-
+      containers:
+        - name: server
+          image: hanamichi/sample-server:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sample-server
+          ports:
+            - containerPort: 5000
