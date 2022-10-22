@@ -21,8 +21,22 @@ spec:
       containers:
         - name: server
           image: hanamichi/sample-server:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           command:
             - sample-server
           ports:
             - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-server
+  labels:
+    malenia: sample-server
+spec:
+  ports:
+    - name: grpc
+      port: 5000
+      targetPort: 5000
+  selector:
+    malenia: sample-server
