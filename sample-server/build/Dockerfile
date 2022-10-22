@@ -6,7 +6,7 @@ RUN mkdir -p ${OUTDIR}/usr/local/bin/
 WORKDIR /workspace
 ADD . /workspace/
 
-RUN make ks-apiserver
+RUN make build
 RUN mv /workspace/dist/sample-server ${OUTDIR}/usr/local/bin/
 
 FROM alpine:3.11
