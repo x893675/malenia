@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: malenia-sample-server
+  labels:
+    malenia: sample-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      malenia: sample-server
+  template:
+    metadata:
+      labels:
+        malenia: sample-server
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "sample-server"
+        dapr.io/app-port: "9090"
+    spec:
+    containers:
+      - name: server
+        image: hanamichi/sample-server:latest
+        imagePullPolicy: IfNotPresent
+        command: sample-server
+        ports:
+          - containerPort: 80
+

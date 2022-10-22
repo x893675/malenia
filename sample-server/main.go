@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	pb "github.com/dapr/dapr/pkg/proto/runtime/v1"
+	"github.com/dapr/go-sdk/service/common"
 	daprd "github.com/dapr/go-sdk/service/grpc"
 	helloworldpb "github.com/x893675/malenia/proto/helloworld"
 	"google.golang.org/grpc"
@@ -12,7 +14,7 @@ import (
 )
 
 var (
-	port = flag.Int("port", 50051, "The server port")
+	port = flag.Int("port", 9090, "The server port")
 )
 
 // server is used to implement helloworld.GreeterServer.

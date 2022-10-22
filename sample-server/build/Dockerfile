@@ -1,0 +1,19 @@
+FROM golang:1.19 as build_context
+
+ENV OUTDIR=/out
+RUN mkdir -p ${OUTDIR}/usr/local/bin/
+
+WORKDIR /workspace
+ADD . /workspace/
+
+RUN make ks-apiserver
+RUN mv /workspace/dist/sample-server ${OUTDIR}/usr/local/bin/
+
+FROM alpine:3.11
+
+COPY --from=build_context /out/ /
+
+WORKDIR /
+
+EXPOSE 9090
+CMD ["sh"]
