@@ -7,3 +7,16 @@
 5. install zipkin 
    1. `kubectl create deployment zipkin --image openzipkin/zipkin`
    2. `kubectl expose deployment zipkin --type ClusterIP --port 9411`
+
+
+## Sample QuickStart
+
+```bash
+kubectl create cm gateway-config --from-file=envoy.yaml=deploy/envoy.yaml
+
+kubectl create cm gateway-proto --from-file=proto.pb=proto/proto.pb
+
+kubectl apply -f deploy/dapr-config.yaml
+
+
+```

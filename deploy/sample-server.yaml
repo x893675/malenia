@@ -1,18 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: malenia-sample-server
+  name: sample-server
   labels:
-    malenia: sample-server
+    app: malenia
+    service: sample-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      malenia: sample-server
+      app: malenia
+      service: sample-server
   template:
     metadata:
       labels:
-        malenia: sample-server
+        app: malenia
+        service: sample-server
       annotations:
         dapr.io/app-id: sample-server
         dapr.io/app-port: "5000"
@@ -23,22 +26,33 @@ spec:
       containers:
         - name: server
           image: hanamichi/sample-server:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - sample-server
           ports:
             - containerPort: 5000
+          volumeMounts:
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+      volumes:
+        - hostPath:
+            path: /etc/localtime
+            type: ""
+          name: host-time
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: sample-server
   labels:
-    malenia: sample-server
+    app: malenia
+    service: sample-server
 spec:
   ports:
     - name: grpc
       port: 5000
       targetPort: 5000
   selector:
-    malenia: sample-server
+    app: malenia
+    service: sample-server
