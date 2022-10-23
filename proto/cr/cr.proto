@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package = "github.com/x893675/malenia/proto/cr";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.cr";
+option java_outer_classname = "CRProto";
+
+package cr;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service Hub {
+  rpc CreateRepo(CreateRepoRequest) returns (Repo) {
+    option (google.api.http) = {
+      post: "/v1/repos"
+      body: "repo"
+    };
+  }
+  rpc ListRepos(google.protobuf.Empty) returns (ListReposResponse) {
+    option (google.api.http) = {
+      get: "/v1/repos"
+    };
+  }
+}
+
+enum Visibility {
+  Public = 0;
+  Private = 1;
+}
+
+message Repo {
+  string name = 1;
+  Visibility visibility = 2;
+}
+
+message CreateRepoRequest {
+  Repo repo = 1;
+}
+
+message ListReposResponse {
+  repeated Repo repos = 1;
+}
