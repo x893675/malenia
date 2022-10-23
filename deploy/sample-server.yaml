@@ -14,9 +14,11 @@ spec:
       labels:
         malenia: sample-server
       annotations:
-        dapr.io/enabled: "true"
-        dapr.io/app-id: "sample-server"
+        dapr.io/app-id: sample-server
         dapr.io/app-port: "5000"
+        dapr.io/app-protocol: grpc
+        dapr.io/config: malenia-dapr-config
+        dapr.io/enabled: "true"
     spec:
       containers:
         - name: server

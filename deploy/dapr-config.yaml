@@ -1,0 +1,15 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: malenia-dapr-config
+spec:
+  metric:
+    enabled: true
+  mtls:
+    allowedClockSkew: 15m
+    enabled: true
+    workloadCertTTL: 24h
+  tracing:
+    samplingRate: "1"
+    zipkin:
+      endpointAddress: http://zipkin.default.svc.cluster.local:9411/api/v2/spans

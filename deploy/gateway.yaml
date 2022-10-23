@@ -75,9 +75,11 @@ spec:
         app: malenia
         service: apigateway
       annotations:
-        dapr.io/enabled: "true"
-        dapr.io/app-id: "apigateway"
+        dapr.io/app-id: apigateway
         dapr.io/app-port: "10000"
+        dapr.io/config: malenia-dapr-config
+        dapr.io/enabled: "true"
+        dapr.io/log-level: debug
     spec:
       containers:
         - name: apigateway
