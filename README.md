@@ -9,6 +9,11 @@
    2. `kubectl expose deployment zipkin --type ClusterIP --port 9411`
 
 
+helm repo add openebs https://openebs.github.io/charts
+helm repo update
+helm install openebs openebs/openebs -n openebs --create-namespace --set localprovisioner.basePath=/data
+kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
 ## Sample QuickStart
 
 ```bash
