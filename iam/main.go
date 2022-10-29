@@ -108,7 +108,7 @@ func (a *AuthorizationServer) Check(ctx context.Context, req *auth.CheckRequest)
 	if len(splitToken) == 2 {
 		token := splitToken[1]
 
-		if token == "foo" {
+		if _, ok := defaultUserMap[token]; ok {
 			return &auth.CheckResponse{
 				Status: &rpcstatus.Status{
 					Code: int32(rpc.OK),
@@ -143,9 +143,7 @@ func (a *AuthorizationServer) Check(ctx context.Context, req *auth.CheckRequest)
 					},
 				},
 			}, nil
-
 		}
-
 	}
 	return &auth.CheckResponse{
 		Status: &rpcstatus.Status{
