@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package = "github.com/x893675/malenia/proto/iam";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.iam";
+option java_outer_classname = "IAMProto";
+
+package iam;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+
+service IdentityAccessManagement{
+  rpc ListUsers(google.protobuf.Empty) returns (ListUsersResponse) {
+    option (google.api.http) = {
+      get: "/iam.io/users"
+    };
+  }
+  rpc Enforce(EnforceRequest) returns (EnforceReply) {
+    option (google.api.http) = {
+      post: "/iam.io/enforce"
+    };
+  }
+}
+
+message User {
+  string name = 1;
+  string email = 2;
+}
+
+message ListUsersResponse {
+  repeated User users = 1;
+}
+
+message EnforceRequest {
+  string url = 1;
+  string action = 2;
+  string username = 3;
+  string method = 4;
+}
+
+message EnforceReply {
+  bool result = 1;
+  string reason = 2;
+}

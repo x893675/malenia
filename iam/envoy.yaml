@@ -97,5 +97,4 @@ static_resources:
           grpc_health_check:
             service_name: "envoy.service.auth.v3.Authorization"
             authority: "server.domain.com"
-
       connect_timeout: 0.25s

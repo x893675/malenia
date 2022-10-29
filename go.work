@@ -1,5 +1,7 @@
 go 1.19
 
-use ./proto
-
-use ./sample-server
+use (
+	./iam
+	./proto
+	./sample-server
+)
