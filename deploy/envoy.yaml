@@ -23,6 +23,12 @@ static_resources:
                     - name: malenia_backend
                       domains: ["*"]
                       routes:
+                        - match: { prefix: "/api/kc/" }
+                          route: { auto_host_rewrite: true, prefix_rewrite: "/", cluster: dapr }
+                          request_headers_to_add:
+                            - header:
+                                key: dapr-app-id
+                                value: kc
                         - match: { prefix: "/s/" }
                           route: { auto_host_rewrite: true, prefix_rewrite: "/v1.0/invoke/sample-server/method/", cluster: dapr}
                         - match: { prefix: "/sample-server/" }
