@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/dapr/dapr v1.8.0
-	github.com/dapr/go-sdk v1.5.0
+	github.com/dapr/go-sdk v1.6.0
 	github.com/x893675/malenia/proto v0.0.0-20221022100744-fcdf6a31c53b
 	google.golang.org/grpc v1.50.0
 )
