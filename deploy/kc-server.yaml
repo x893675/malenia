@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kc-server
+  labels:
+    app: malenia
+    service: kc-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: malenia
+      service: kc-server
+  template:
+    metadata:
+      labels:
+        app: malenia
+        service: kc-server
+      annotations:
+        dapr.io/app-id: kc
+        dapr.io/app-port: "5000"
+        dapr.io/app-protocol: http
+        dapr.io/config: malenia-dapr-config
+        dapr.io/enabled: "true"
+    spec:
+      containers:
+        - name: server
+          image: hanamichi/kc-server:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - kc-server
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+      volumes:
+        - hostPath:
+            path: /etc/localtime
+            type: ""
+          name: host-time
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kc-server
+  labels:
+    app: malenia
+    service: kc-server
+spec:
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: malenia
+    service: kc-server
