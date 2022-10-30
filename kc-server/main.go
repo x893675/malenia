@@ -27,6 +27,7 @@ func main() {
 
 	router.HandleFunc("/core.kubeclipper.io/v1/clusters", s.CreateCluster).Methods("POST")
 	router.HandleFunc("/core.kubeclipper.io/v1/clusters/{name}", s.DeleteCluster).Methods("DELETE")
+	router.HandleFunc("/core.kubeclipper.io/v1/clusters/{name}", s.GetCluster).Methods("GET")
 
 	srv := &http.Server{
 		Handler:      router,
@@ -99,6 +100,17 @@ func (s *Service) CreateCluster(resp http.ResponseWriter, req *http.Request) {
 		http.Error(resp, err.Error(), http.StatusBadRequest)
 		return
 	}
+	data, err := s.client.GetState(req.Context(), s.storeName, c.Name, nil)
+	if err != nil {
+		resp.WriteHeader(http.StatusInternalServerError)
+		_, _ = resp.Write([]byte(err.Error()))
+		return
+	}
+	if data.Value != nil {
+		resp.WriteHeader(http.StatusBadRequest)
+		_, _ = resp.Write([]byte("cluster exist"))
+		return
+	}
 	err = s.SetStatus(req.Context(), &c, ClusterInstalling)
 	if err != nil {
 		log.Printf("### Failed to update state for cluster %s\n", err)
@@ -164,4 +176,16 @@ func (s *Service) DeleteCluster(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 	resp.WriteHeader(http.StatusOK)
+}
+
+func (s *Service) GetCluster(resp http.ResponseWriter, req *http.Request) {
+	parms := mux.Vars(req)
+	cluName := parms["name"]
+	data, err := s.client.GetState(req.Context(), s.storeName, cluName, nil)
+	if err != nil {
+		resp.WriteHeader(http.StatusInternalServerError)
+		_, _ = resp.Write([]byte(err.Error()))
+		return
+	}
+	_, _ = resp.Write(data.Value)
 }
