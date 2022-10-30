@@ -26,7 +26,7 @@ func main() {
 	s := NewService(router)
 
 	router.HandleFunc("/core.kubeclipper.io/v1/clusters", s.CreateCluster).Methods("POST")
-	router.HandleFunc("/core.kubeclipper.io/v1/clusters", s.DeleteCluster).Methods("DELETE")
+	router.HandleFunc("/core.kubeclipper.io/v1/clusters/{name}", s.DeleteCluster).Methods("DELETE")
 
 	srv := &http.Server{
 		Handler:      router,
