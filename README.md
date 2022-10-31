@@ -1,5 +1,15 @@
 ## Prerequisites
 
+### Install Dev
+
+- install go
+- brew install protobuf
+- brew install envoy
+- go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
+- go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+- go install github.com/envoyproxy/protoc-gen-validate@v0.16.3
+- go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+
 ### Install k8s and dapr runtime
 
 1. k8s cluster with StorageClass
@@ -15,7 +25,8 @@
 1. `helm repo add bitnami https://charts.bitnami.com/bitnami`
 2. `helm repo update`
 3. `helm install redis bitnami/redis --set image.tag=6.2`
-### Install openebs (OPTION)
+
+### Install openebs (OPTIONAL)
 
 1. `helm repo add openebs https://openebs.github.io/charts`
 2. `helm repo update`

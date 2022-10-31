@@ -8,7 +8,9 @@ option java_outer_classname = "CRProto";
 package cr;
 
 import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
 import "google/protobuf/empty.proto";
+import "validate/validate.proto";
 
 service Hub {
   rpc CreateRepo(CreateRepoRequest) returns (Repo) {
@@ -30,7 +32,10 @@ enum Visibility {
 }
 
 message Repo {
-  string name = 1;
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (validate.rules).string = {pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$", max_bytes: 256}
+  ];
   Visibility visibility = 2;
 }
 

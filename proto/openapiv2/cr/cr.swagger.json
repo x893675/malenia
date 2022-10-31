@@ -1,0 +1,134 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "cr/cr.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Hub"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/repos": {
+      "get": {
+        "operationId": "Hub_ListRepos",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/crListReposResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Hub"
+        ]
+      },
+      "post": {
+        "operationId": "Hub_CreateRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/crRepo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "repo",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/crRepo"
+            }
+          }
+        ],
+        "tags": [
+          "Hub"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "crListReposResponse": {
+      "type": "object",
+      "properties": {
+        "repos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/crRepo"
+          }
+        }
+      }
+    },
+    "crRepo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "$ref": "#/definitions/crVisibility"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "crVisibility": {
+      "type": "string",
+      "enum": [
+        "Public",
+        "Private"
+      ],
+      "default": "Public"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
