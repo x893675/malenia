@@ -46,6 +46,12 @@ func main() {
 func AddHealth(r *mux.Router) {
 	// Add health check endpoint
 	r.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("receive health check request")
+		b, err := json.MarshalIndent(r.Header, "", "  ")
+		if err == nil {
+			log.Println("Inbound Headers: ")
+			log.Println(string(b))
+		}
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("OK"))
 	})

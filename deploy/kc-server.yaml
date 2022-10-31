@@ -1,3 +1,31 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: malenia-kc-server-config
+spec:
+  metric:
+    enabled: true
+  mtls:
+    allowedClockSkew: 15m
+    enabled: true
+    workloadCertTTL: 24h
+  tracing:
+    samplingRate: "1"
+    zipkin:
+      endpointAddress: http://zipkin.default.svc.cluster.local:9411/api/v2/spans
+  features:
+    - name: AppHealthCheck
+      enabled: true
+  accessControl:
+    defaultAction: deny
+    trustDomain: "public"
+    policies:
+      - appId: apigateway
+        defaultAction: allow
+        trustDomain: "public"
+        namespace: "default"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,16 +45,21 @@ spec:
         app: malenia
         service: kc-server
       annotations:
+        dapr.io/enabled: "true"
         dapr.io/app-id: kc
         dapr.io/app-port: "5000"
         dapr.io/app-protocol: http
-        dapr.io/config: malenia-dapr-config
-        dapr.io/enabled: "true"
+        dapr.io/config: malenia-kc-server-config
+        dapr.io/enable-app-health-check: "true"
+        dapr.io/app-health-check-path: "/health"
+        dapr.io/app-health-probe-interval: "3"
+        dapr.io/app-health-probe-timeout: "200"
+        dapr.io/app-health-threshold: "2"
     spec:
       containers:
         - name: server
           image: hanamichi/kc-server:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           command:
             - kc-server
           ports:
