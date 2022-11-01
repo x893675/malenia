@@ -68,6 +68,8 @@ func main() {
 // Notice:
 // grpc status code Ref: https://grpc.github.io/grpc/core/md_doc_statuscodes.html
 func (s server) CreateRepo(ctx context.Context, request *crpb.CreateRepoRequest) (*crpb.Repo, error) {
+	log.Printf("receive msg: repo.name=%s, repo.visiablity=%d\n", request.Repo.Name, request.Repo.Visibility)
+
 	if err := request.ValidateAll(); err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
