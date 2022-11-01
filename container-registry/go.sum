@@ -166,6 +166,10 @@ github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.7.4 h1:wZRexSlwd7ZXfKINDLsO4r7WBt3gTKONc6K/VesHvHM=
 github.com/x893675/malenia/proto v0.0.0-20221101083947-0b5d55c1121f h1:6sZMWyRD7HLJKCa49IWeYdsq4EsTOpIiDAulp87qZ4M=
 github.com/x893675/malenia/proto v0.0.0-20221101083947-0b5d55c1121f/go.mod h1:wwQg3N9i1vm3zmzezNmefdcXeOr9LaQr3h2SddQ1rUw=
+github.com/x893675/malenia/proto v0.0.0-20221101085426-d0456cdc5fa9 h1:aDEleufNgrZj/sQgDaGkFZuWrq/pQco9Y/eeXd+Hlww=
+github.com/x893675/malenia/proto v0.0.0-20221101085426-d0456cdc5fa9/go.mod h1:wwQg3N9i1vm3zmzezNmefdcXeOr9LaQr3h2SddQ1rUw=
+github.com/x893675/malenia/proto v0.0.0-20221101095129-68b4b47c7ff2 h1:RHIaURv2ZuGPqXs2IoDTCNBB1kZLnMZ/tM71aEk5Uig=
+github.com/x893675/malenia/proto v0.0.0-20221101095129-68b4b47c7ff2/go.mod h1:wwQg3N9i1vm3zmzezNmefdcXeOr9LaQr3h2SddQ1rUw=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
