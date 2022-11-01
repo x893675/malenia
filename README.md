@@ -1,3 +1,9 @@
+# Malenia
+
+The dapr micro service Demo
+
+![svc-dep-graph](docs/img/svc-dependencies-graph.png)
+
 ## Prerequisites
 
 ### Install Dev
