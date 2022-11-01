@@ -19,6 +19,10 @@ var (
 	port = flag.Int("port", 5000, "The server port")
 )
 
+var (
+	_ crpb.HubServer = (*server)(nil)
+)
+
 const (
 	defaultStoreName = "statestore"
 )
