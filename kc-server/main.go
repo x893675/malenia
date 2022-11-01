@@ -8,6 +8,9 @@ import (
 	dapr "github.com/dapr/go-sdk/client"
 	daprhttp "github.com/dapr/go-sdk/service/http"
 	"github.com/gorilla/mux"
+	crpb "github.com/x893675/malenia/proto/cr"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"log"
 	"net/http"
 	"time"
@@ -23,7 +26,15 @@ func main() {
 	router := mux.NewRouter()
 	AddHealth(router)
 
-	s := NewService(router)
+	conn, err := grpc.Dial(defaultAddress, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+
+	c := crpb.NewHubClient(conn)
+
+	s := NewService(router, c)
 
 	router.HandleFunc("/core.kubeclipper.io/v1/clusters", s.CreateCluster).Methods("POST")
 	router.HandleFunc("/core.kubeclipper.io/v1/clusters/{name}", s.DeleteCluster).Methods("DELETE")
@@ -37,7 +48,7 @@ func main() {
 		IdleTimeout:  10 * time.Second,
 	}
 
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -59,16 +70,20 @@ func AddHealth(r *mux.Router) {
 
 const (
 	defaultStoreName = "statestore"
-	//defaultPubSub    = "pubsub"
-	//defaultTopic     = "clusters-queue"
+
+	containerRegistryService = "cr"
+
+	// use dapr grpc runtime
+	defaultAddress = "localhost:50001"
 )
 
 type Service struct {
 	storeName string
 	client    dapr.Client
+	crClient  crpb.HubClient
 }
 
-func NewService(router *mux.Router) *Service {
+func NewService(router *mux.Router, crClient crpb.HubClient) *Service {
 	client, err := dapr.NewClient()
 	if err != nil {
 		log.Panicln("FATAL! Dapr process/sidecar NOT found. Terminating!")
@@ -76,6 +91,7 @@ func NewService(router *mux.Router) *Service {
 	s := &Service{
 		storeName: defaultStoreName,
 		client:    client,
+		crClient:  crClient,
 	}
 	// We don't actually use the service as we have one already
 	// But we need to call AddTopicEventHandler to register the handler
@@ -95,8 +111,9 @@ const (
 )
 
 type Cluster struct {
-	Name   string        `json:"name"`
-	Status ClusterStatus `json:"status,omitempty"`
+	Name              string        `json:"name"`
+	ContainerRegistry string        `json:"containerRegistry,omitempty"`
+	Status            ClusterStatus `json:"status,omitempty"`
 }
 
 func (s *Service) CreateCluster(resp http.ResponseWriter, req *http.Request) {
@@ -112,9 +129,22 @@ func (s *Service) CreateCluster(resp http.ResponseWriter, req *http.Request) {
 		_, _ = resp.Write([]byte(err.Error()))
 		return
 	}
-	if data.Value != nil {
+	if data.Value != nil || c.ContainerRegistry == "" {
 		resp.WriteHeader(http.StatusBadRequest)
-		_, _ = resp.Write([]byte("cluster exist"))
+		_, _ = resp.Write([]byte("cluster exist or container registry not set"))
+		return
+	}
+
+	ctx := metadata.AppendToOutgoingContext(context.Background(), "dapr-app-id", containerRegistryService)
+	repo, err := s.crClient.GetRepo(ctx, &crpb.GetRepoRequest{Name: c.ContainerRegistry})
+	if err != nil {
+		resp.WriteHeader(http.StatusInternalServerError)
+		_, _ = resp.Write([]byte(err.Error()))
+		return
+	}
+	if repo.Name == "" {
+		resp.WriteHeader(http.StatusBadRequest)
+		_, _ = resp.Write([]byte("cluster container registry not exist"))
 		return
 	}
 	err = s.SetStatus(req.Context(), &c, ClusterInstalling)
