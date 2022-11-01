@@ -84,7 +84,6 @@ func (s server) CreateRepo(ctx context.Context, request *crpb.CreateRepoRequest)
 
 	jsonPayload, _ := json.Marshal(request.GetRepo())
 
-	request.Repo.Reset()
 	if err := s.client.SaveState(ctx, s.storeName, request.GetRepo().GetName(), jsonPayload, nil); err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
