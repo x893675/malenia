@@ -88,3 +88,18 @@ func (s server) CreateRepo(ctx context.Context, request *crpb.CreateRepoRequest)
 func (s server) ListRepos(ctx context.Context, empty *emptypb.Empty) (*crpb.ListReposResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "not impl")
 }
+
+func (s server) GetRepo(ctx context.Context, request *crpb.GetRepoRequest) (*crpb.Repo, error) {
+	if err := request.ValidateAll(); err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	data, err := s.client.GetState(ctx, s.storeName, request.GetName(), nil)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	resp := &crpb.Repo{}
+	if data.Value != nil {
+		_ = json.Unmarshal(data.Value, resp)
+	}
+	return resp, nil
+}

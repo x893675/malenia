@@ -24,11 +24,23 @@ service Hub {
       get: "/cr/repos"
     };
   }
+  rpc GetRepo(GetRepoRequest) returns (Repo) {
+    option (google.api.http) = {
+      get: "/cr/repos/{name}"
+    };
+  }
 }
 
 enum Visibility {
   Public = 0;
   Private = 1;
+}
+
+message GetRepoRequest {
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (validate.rules).string = {pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$", max_bytes: 256}
+  ];
 }
 
 message Repo {

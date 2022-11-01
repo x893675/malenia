@@ -25,6 +25,7 @@ const _ = grpc.SupportPackageIsVersion7
 type HubClient interface {
 	CreateRepo(ctx context.Context, in *CreateRepoRequest, opts ...grpc.CallOption) (*Repo, error)
 	ListRepos(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListReposResponse, error)
+	GetRepo(ctx context.Context, in *GetRepoRequest, opts ...grpc.CallOption) (*Repo, error)
 }
 
 type hubClient struct {
@@ -53,12 +54,22 @@ func (c *hubClient) ListRepos(ctx context.Context, in *emptypb.Empty, opts ...gr
 	return out, nil
 }
 
+func (c *hubClient) GetRepo(ctx context.Context, in *GetRepoRequest, opts ...grpc.CallOption) (*Repo, error) {
+	out := new(Repo)
+	err := c.cc.Invoke(ctx, "/cr.Hub/GetRepo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // HubServer is the server API for Hub service.
 // All implementations must embed UnimplementedHubServer
 // for forward compatibility
 type HubServer interface {
 	CreateRepo(context.Context, *CreateRepoRequest) (*Repo, error)
 	ListRepos(context.Context, *emptypb.Empty) (*ListReposResponse, error)
+	GetRepo(context.Context, *GetRepoRequest) (*Repo, error)
 	mustEmbedUnimplementedHubServer()
 }
 
@@ -71,6 +82,9 @@ func (UnimplementedHubServer) CreateRepo(context.Context, *CreateRepoRequest) (*
 }
 func (UnimplementedHubServer) ListRepos(context.Context, *emptypb.Empty) (*ListReposResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRepos not implemented")
+}
+func (UnimplementedHubServer) GetRepo(context.Context, *GetRepoRequest) (*Repo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRepo not implemented")
 }
 func (UnimplementedHubServer) mustEmbedUnimplementedHubServer() {}
 
@@ -121,6 +135,24 @@ func _Hub_ListRepos_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Hub_GetRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HubServer).GetRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cr.Hub/GetRepo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HubServer).GetRepo(ctx, req.(*GetRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Hub_ServiceDesc is the grpc.ServiceDesc for Hub service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -135,6 +167,10 @@ var Hub_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListRepos",
 			Handler:    _Hub_ListRepos_Handler,
+		},
+		{
+			MethodName: "GetRepo",
+			Handler:    _Hub_GetRepo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

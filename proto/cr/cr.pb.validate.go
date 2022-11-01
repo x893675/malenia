@@ -35,6 +35,130 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on GetRepoRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *GetRepoRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetRepoRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in GetRepoRequestMultiError,
+// or nil if none found.
+func (m *GetRepoRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetRepoRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(m.GetName()) > 256 {
+		err := GetRepoRequestValidationError{
+			field:  "Name",
+			reason: "value length must be at most 256 bytes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_GetRepoRequest_Name_Pattern.MatchString(m.GetName()) {
+		err := GetRepoRequestValidationError{
+			field:  "Name",
+			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return GetRepoRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// GetRepoRequestMultiError is an error wrapping multiple validation errors
+// returned by GetRepoRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GetRepoRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetRepoRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetRepoRequestMultiError) AllErrors() []error { return m }
+
+// GetRepoRequestValidationError is the validation error returned by
+// GetRepoRequest.Validate if the designated constraints aren't met.
+type GetRepoRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetRepoRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetRepoRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetRepoRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetRepoRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetRepoRequestValidationError) ErrorName() string { return "GetRepoRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetRepoRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetRepoRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetRepoRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetRepoRequestValidationError{}
+
+var _GetRepoRequest_Name_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
+
 // Validate checks the field values on Repo with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
 // encountered is returned, or nil if there are no violations.
