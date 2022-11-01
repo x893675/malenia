@@ -15,13 +15,13 @@ import "validate/validate.proto";
 service Hub {
   rpc CreateRepo(CreateRepoRequest) returns (Repo) {
     option (google.api.http) = {
-      post: "/v1/repos"
+      post: "/cr/repos"
       body: "repo"
     };
   }
   rpc ListRepos(google.protobuf.Empty) returns (ListReposResponse) {
     option (google.api.http) = {
-      get: "/v1/repos"
+      get: "/cr/repos"
     };
   }
 }
