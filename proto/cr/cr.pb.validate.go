@@ -71,7 +71,7 @@ func (m *GetRepoRequest) validate(all bool) error {
 	if !_GetRepoRequest_Name_Pattern.MatchString(m.GetName()) {
 		err := GetRepoRequestValidationError{
 			field:  "Name",
-			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
+			reason: "value does not match regex pattern \"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$\"",
 		}
 		if !all {
 			return err
@@ -157,7 +157,7 @@ var _ interface {
 	ErrorName() string
 } = GetRepoRequestValidationError{}
 
-var _GetRepoRequest_Name_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
+var _GetRepoRequest_Name_Pattern = regexp.MustCompile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$")
 
 // Validate checks the field values on Repo with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -194,7 +194,7 @@ func (m *Repo) validate(all bool) error {
 	if !_Repo_Name_Pattern.MatchString(m.GetName()) {
 		err := RepoValidationError{
 			field:  "Name",
-			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
+			reason: "value does not match regex pattern \"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$\"",
 		}
 		if !all {
 			return err
@@ -281,7 +281,7 @@ var _ interface {
 	ErrorName() string
 } = RepoValidationError{}
 
-var _Repo_Name_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
+var _Repo_Name_Pattern = regexp.MustCompile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$")
 
 // Validate checks the field values on CreateRepoRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the

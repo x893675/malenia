@@ -39,14 +39,14 @@ enum Visibility {
 message GetRepoRequest {
   string name = 1 [
     (google.api.field_behavior) = REQUIRED,
-    (validate.rules).string = {pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$", max_bytes: 256}
+    (validate.rules).string = {pattern:"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$", max_bytes: 256}
   ];
 }
 
 message Repo {
   string name = 1 [
     (google.api.field_behavior) = REQUIRED,
-    (validate.rules).string = {pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$", max_bytes: 256}
+    (validate.rules).string = {pattern:"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$", max_bytes: 256}
   ];
   Visibility visibility = 2;
 }
