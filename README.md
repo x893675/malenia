@@ -42,12 +42,6 @@ The micro service Demo with Dapr.
    1. `kubectl create deployment zipkin --image openzipkin/zipkin`
    2. `kubectl expose deployment zipkin --type ClusterIP --port 9411`
 
-### Install Redis
-
-1. `helm repo add bitnami https://charts.bitnami.com/bitnami`
-2. `helm repo update`
-3. `helm install redis bitnami/redis --set image.tag=6.2`
-
 ### Install openebs (OPTIONAL)
 
 1. `helm repo add openebs https://openebs.github.io/charts`
@@ -55,6 +49,12 @@ The micro service Demo with Dapr.
 3. `mkdir -pv /data`
 4. `helm install openebs openebs/openebs -n openebs --create-namespace --set localprovisioner.basePath=/data`
 5. `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`
+
+### Install Redis
+
+1. `helm repo add bitnami https://charts.bitnami.com/bitnami`
+2. `helm repo update`
+3. `helm install redis bitnami/redis --set image.tag=6.2`
 
 ## QuickStart
 
