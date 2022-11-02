@@ -1,8 +1,24 @@
 # Malenia
 
-The dapr micro service Demo
+The micro service Demo with Dapr.
 
 ![svc-dep-graph](docs/img/svc-dependencies-graph.png)
+
+* apigateway: envoy
+* sample-server: grpc server with dapr handler
+* iam: iam grpc server and impl envoy ext-authz
+* kc-server: http server
+* cr(container-registry): grpc server
+
+开发聚焦于业务实现，dapr 完成以下部分
+
+* 服务发现
+* 服务 mtls 认证
+* 服务调用重试、限流
+* 服务访问策略
+* 状态管理
+* 消息系统
+* 可观测性
 
 ## Prerequisites
 
