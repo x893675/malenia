@@ -1,0 +1,192 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "malenia",
+  "dateExported": "2022-11-02T03:17:12.040Z",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "bbf70ca4-e90f-43c6-ab4d-afde47ca6dfa",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "gateway",
+      "url": "192.168.234.3:31484/s/echo",
+      "method": "POST",
+      "sortNum": 50000,
+      "created": "2022-10-22T13:34:09.630Z",
+      "modified": "2022-10-31T08:16:10.401Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"value2\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "bd34ef5f-4449-4587-9dc0-635a03ce2f5d",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "SayHello",
+      "url": "192.168.234.3:31484/sayhello?name=world",
+      "method": "GET",
+      "sortNum": 60000,
+      "created": "2022-10-23T01:01:45.143Z",
+      "modified": "2022-11-01T09:07:20.577Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "name",
+          "value": "world",
+          "isPath": false
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "36ae061a-3742-4eeb-9e03-90dd9e5bc57f",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "getUsers",
+      "url": "192.168.234.3:31484/iam.io/users",
+      "method": "GET",
+      "sortNum": 70000,
+      "created": "2022-10-29T07:29:43.786Z",
+      "modified": "2022-11-01T09:07:27.462Z",
+      "headers": [],
+      "params": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "1459bce0-2fa9-4ce1-9a36-77692f5cf239",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "CreateClusters",
+      "url": "192.168.234.3:31484/api/kc/core.kubeclipper.io/v1/clusters",
+      "method": "POST",
+      "sortNum": 80000,
+      "created": "2022-10-30T08:59:08.985Z",
+      "modified": "2022-11-01T10:48:02.428Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"test2\",\n  \"containerRegistry\": \"test2\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "d08a134f-b5a0-4e06-a242-ef510b3931e9",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "CreateRepo",
+      "url": "192.168.234.3:31484/cr/repos",
+      "method": "POST",
+      "sortNum": 85000,
+      "created": "2022-11-01T09:12:56.551Z",
+      "modified": "2022-11-01T10:15:24.657Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"test\"\n}",
+        "form": []
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "214857f1-baf6-403a-8945-86c85e862e42",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "DeleteClusters",
+      "url": "192.168.234.3:31484/api/kc/core.kubeclipper.io/v1/clusters/{name}",
+      "method": "DELETE",
+      "sortNum": 90000,
+      "created": "2022-10-30T09:22:11.382Z",
+      "modified": "2022-10-30T09:38:10.604Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "name",
+          "value": "test",
+          "isPath": true
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": "foo"
+      },
+      "tests": []
+    },
+    {
+      "_id": "1c2dbed7-a281-4476-bf2c-82f06f7a2ffd",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "GetClusters",
+      "url": "192.168.234.3:31484/api/kc/core.kubeclipper.io/v1/clusters/{name}",
+      "method": "GET",
+      "sortNum": 100000,
+      "created": "2022-10-31T06:17:34.343Z",
+      "modified": "2022-11-01T09:07:38.208Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "name",
+          "value": "test",
+          "isPath": true
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    },
+    {
+      "_id": "99129626-65ea-46b0-9111-5f4de3898692",
+      "colId": "48de5d24-16ce-47ab-b957-dcfc2e824394",
+      "containerId": "",
+      "name": "GetRepo",
+      "url": "192.168.234.3:31484/cr/repos/{name}",
+      "method": "GET",
+      "sortNum": 110000,
+      "created": "2022-11-01T10:08:40.534Z",
+      "modified": "2022-11-01T10:28:07.911Z",
+      "headers": [],
+      "params": [
+        {
+          "name": "name",
+          "value": "test",
+          "isPath": true
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": "spike"
+      },
+      "tests": []
+    }
+  ]
+}
